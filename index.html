@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueway - Wholesale Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.5;
+            color: #2c2c2c;
+            background: #fefefe;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: white;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: normal;
+            color: #2c2c2c;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            font-family: 'Georgia', serif;
+        }
+        
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 2rem;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.8rem 3rem 0.8rem 1rem;
+            border: 1px solid #d0d0d0;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            background: #f8f8f8;
+            outline: none;
+        }
+        
+        .search-input:focus {
+            border-color: #2c2c2c;
+            background: white;
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #2c2c2c;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #666;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #2c2c2c;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid #2c2c2c;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background: #2c2c2c;
+            color: white;
+        }
+        
+        .btn-dark {
+            background: #2c2c2c;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-dark:hover {
+            background: #444;
+        }
+        
+        .category-nav {
+            background: white;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .category-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+        
+        .category-links a:hover,
+        .category-links a.active {
+            color: #2c2c2c;
+            border-bottom: 2px solid #2c2c2c;
+        }
+        
+        .hero {
+            padding: 3rem 0;
+            background: #f8f8f8;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+            color: #2c2c2c;
+            text-align: center;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: normal;
+            color: #2c2c2c;
+            margin-bottom: 2rem;
+        }
+        
+        .categories-section {
+            padding: 4rem 0;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .category-card {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 300px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .category-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 2rem;
+            color: white;
+        }
+        
+        .category-overlay h3 {
+            font-size: 1.5rem;
+            font-weight: normal;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .values-section {
+            padding: 4rem 0;
+            background: #f8f8f8;
+        }
+        
+        .values-tags {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .value-tag {
+            background: white;
+            color: #2c2c2c;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .value-tag:hover,
+        .value-tag.active {
+            background: #2c2c2c;
+            color: white;
+            border-color: #2c2c2c;
+        }
+        
+        .platform-demo {
+            padding: 4rem 0;
+        }
+        
+        .demo-container {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .demo-stats {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-select {
+            padding: 0.6rem 1rem;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            background: white;
+            font-size: 0.9rem;
+            min-width: 140px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .product-card {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .product-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #999;
+        }
+        
+        .product-info {
+            padding: 1rem;
+        }
+        
+        .product-brand {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .product-name {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #2c2c2c;
+        }
+        
+        .product-pricing {
+            font-size: 0.9rem;
+        }
+        
+        .wholesale-price {
+            font-weight: bold;
+            color: #2c2c2c;
+        }
+        
+        .msrp {
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .pricing-section {
+            padding: 4rem 0;
+            background: #f8f8f8;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .pricing-card {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .pricing-card.featured {
+            border-color: #2c2c2c;
+            position: relative;
+        }
+        
+        .pricing-card.featured::before {
+            content: "Most Popular";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c2c2c;
+            color: white;
+            padding: 0.3rem 1rem;
+            font-size: 0.8rem;
+            border-radius: 15px;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: normal;
+            color: #2c2c2c;
+            margin: 1rem 0;
+        }
+        
+        .price-features {
+            list-style: none;
+            text-align: left;
+            margin: 1.5rem 0;
+        }
+        
+        .price-features li {
+            padding: 0.5rem 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .price-features li::before {
+            content: "✓";
+            color: #2c2c2c;
+            margin-right: 0.8rem;
+        }
+        
+        .testimonial-section {
+            padding: 4rem 0;
+            background: white;
+        }
+        
+        .testimonial {
+            background: #f8f8f8;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .testimonial-quote {
+            font-size: 1.2rem;
+            color: #2c2c2c;
+            font-style: italic;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            background: #2c2c2c;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #000;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c2c2c;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            background: white;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2c2c2c;
+        }
+        
+        @media (max-width: 768px) {
+            .search-container {
+                display: none;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-select {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">NUEWAY</a>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search wholesale products or brands">
+                <button class="search-btn">🔍</button>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#sell">Sell on Nueway</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="#" class="btn-outline" onclick="openModal('loginModal')">Sign in</a>
+                <a href="#" class="btn-dark" onclick="openModal('buyerModal')">Sign up</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="category-nav">
+        <div class="container">
+            <div class="category-links">
+                <a href="#" class="active">Featured</a>
+                <a href="#">New</a>
+                <a href="#">Home decor</a>
+                <a href="#">Food & drink</a>
+                <a href="#">Women</a>
+                <a href="#">Beauty & wellness</a>
+                <a href="#">Jewelry</a>
+                <a href="#">Paper & novelty</a>
+                <a href="#">Kids & baby</a>
+                <a href="#">Pets</a>
+                <a href="#">Men</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Curated wholesale for independent retailers</h1>
+                <p>Discover unique products from emerging designers and established brands. Small batch quantities perfect for boutiques and specialty stores.</p>
+                <div class="hero-buttons">
+                    <button class="btn-dark" onclick="openModal('buyerModal')">Start Shopping</button>
+                    <button class="btn-outline" onclick="openModal('designerModal')">Become a Seller</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="categories-section">
+            <div class="container">
+                <h2 class="section-title">Explore categories</h2>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-image" style="background: linear-gradient(135deg, rgba(139, 158, 136, 0.8), rgba(88, 129, 87, 0.8)), url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 300\"><rect fill=\"%236B8E23\" width=\"400\" height=\"300\"/><circle fill=\"%23F5DEB3\" cx=\"150\" cy=\"100\" r=\"30\"/><rect fill=\"%23DEB887\" x=\"200\" y=\"150\" width=\"100\" height=\"80\" rx=\"10\"/></svg>');">
+                            <div class="category-overlay">
+                                <h3>Home decor</h3>
+                                <p>Candles, ceramics, textiles, and unique pieces for modern living</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-image" style="background: linear-gradient(135deg, rgba(198, 135, 95, 0.8), rgba(139, 69, 19, 0.8)), url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 300\"><rect fill=\"%23CD853F\" width=\"400\" height=\"300\"/><rect fill=\"%23F4A460\" x=\"100\" y=\"80\" width=\"80\" height=\"20\" rx=\"10\"/><circle fill=\"%23DEB887\" cx=\"280\" cy=\"120\" r=\"25\"/></svg>');">
+                            <div class="category-overlay">
+                                <h3>Food & drink</h3>
+                                <p>Artisanal foods, craft beverages, and gourmet specialties</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-image" style="background: linear-gradient(135deg, rgba(255, 182, 193, 0.8), rgba(255, 105, 180, 0.8)), url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 300\"><rect fill=\"%23FFB6C1\" width=\"400\" height=\"300\"/><ellipse fill=\"%23FF69B4\" cx=\"200\" cy=\"150\" rx=\"60\" ry=\"40\"/><rect fill=\"%23FFC0CB\" x=\"250\" y=\"100\" width=\"30\" height=\"100\" rx=\"15\"/></svg>');">
+                            <div class="category-overlay">
+                                <h3>Women</h3>
+                                <p>Fashion-forward apparel, accessories, and jewelry</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="values-section">
+            <div class="container">
+                <h2 class="section-title">Shop by your values</h2>
+                <div class="values-tags">
+                    <div class="value-tag active">Women owned</div>
+                    <div class="value-tag">AAPI owned</div>
+                    <div class="value-tag">Black owned</div>
+                    <div class="value-tag">Latino owned</div>
+                    <div class="value-tag">LGBTQI+ owned</div>
+                    <div class="value-tag">Eco-friendly</div>
+                    <div class="value-tag">Organic</div>
+                    <div class="value-tag">Handmade</div>
+                    <div class="value-tag">Not on Amazon</div>
+                    <div class="value-tag">Gives back</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="platform-demo">
+            <div class="container">
+                <h2 class="section-title">Wholesale marketplace</h2>
+                <div class="demo-container">
+                    <div class="demo-header">
+                        <h3>Featured Products</h3>
+                        <div class="demo-stats">127 new products this week</div>
+                    </div>
+                    
+                    <div class="filter-bar">
+                        <select class="filter-select">
+                            <option>All Categories</option>
+                            <option>Home decor</option>
+                            <option>Fashion</option>
+                            <option>Food & drink</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>Price Range</option>
+                            <option>$10-25</option>
+                            <option>$25-50</option>
+                            <option>$50-100</option>
+                            <option>$100+</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>Minimum Order</option>
+                            <option>6 pieces</option>
+                            <option>12 pieces</option>
+                            <option>24 pieces</option>
+                        </select>
+                        <button class="btn-dark">Apply Filters</button>
+                    </div>
+                    
+                    <div class="product-grid">
+                        <div class="product-card">
+                            <div class="product-image">🕯️</div>
+                            <div class="product-info">
+                                <div class="product-brand">Lumina Studio</div>
+                                <div class="product-name">Soy Candle Collection</div>
+                                <div class="product-pricing">
+                                    <div class="wholesale-price">Wholesale: $18</div>
+                                    <div class="msrp">MSRP: $42 | MOQ: 12</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">🏺</div>
+                            <div class="product-info">
+                                <div class="product-brand">Clay & Earth</div>
+                                <div class="product-name">Ceramic Vase Set</div>
+                                <div class="product-pricing">
+                                    <div class="wholesale-price">Wholesale: $45</div>
+                                    <div class="msrp">MSRP: $95 | MOQ: 6</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">💍</div>
+                            <div class="product-info">
+                                <div class="product-brand">Moonstone Studio</div>
+                                <div class="product-name">Sterling Silver Rings</div>
+                                <div class="product-pricing">
+                                    <div class="wholesale-price">Wholesale: $32</div>
+                                    <div class="msrp">MSRP: $75 | MOQ: 8</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">👕</div>
+                            <div class="product-info">
+                                <div class="product-brand">Terra Threads</div>
+                                <div class="product-name">Organic Cotton Tees</div>
+                                <div class="product-pricing">
+                                    <div class="wholesale-price">Wholesale: $22</div>
+                                    <div class="msrp">MSRP: $48 | MOQ: 12</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonial-section">
+            <div class="container">
+                <h2 class="section-title">What retailers are saying</h2>
+                <div class="testimonial">
+                    <div class="testimonial-quote">
+                        "Nueway has transformed how we source products for our boutique. The curation is exceptional, and the small batch quantities are perfect for testing new items with our customers. We've discovered so many amazing brands through their platform."
+                    </div>
+                    <div class="testimonial-author">
+                        — Sarah Chen, Owner of Willow & Co.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing-section">
+            <div class="container">
+                <h2 class="section-title">Membership plans</h2>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Starter</h3>
+                        <div class="price">$99<span style="font-size: 1rem; color: #666;">/month</span></div>
+                        <ul class="price-features">
+                            <li>Access to full catalog</li>
+                            <li>Standard payment terms</li>
+                            <li>Email support</li>
+                            <li>Basic analytics</li>
+                        </ul>
+                        <button class="btn-dark" style="width: 100%;">Get Started</button>
+                    </div>
+                    <div class="pricing-card featured">
+                        <h3>Professional</h3>
+                        <div class="price">$199<span style="font-size: 1rem; color: #666;">/month</span></div>
+                        <ul class="price-features">
+                            <li>Everything in Starter</li>
+                            <li>Extended payment terms</li>
+                            <li>Early access to collections</li>
+                            <li>Priority support</li>
+                            <li>Advanced analytics</li>
+                            <li>Custom orders available</li>
+                        </ul>
+                        <button class="btn-dark" style="width: 100%;">Choose Plan</button>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Enterprise</h3>
+                        <div class="price">Custom</div>
+                        <ul class="price-features">
+                            <li>Everything in Professional</li>
+                            <li>Dedicated account manager</li>
+                            <li>Exclusive product lines</li>
+                            <li>Volume discounts</li>
+                            <li>White-label options</li>
+                        </ul>
+                        <button class="btn-outline" style="width: 100%;">Contact Us</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Nueway. Connecting independent retailers with exceptional makers.</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="buyerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('buyerModal')">&times;</span>
+            <h2>Register as Retailer</h2>
+            <form>
+                <div class="form-group">
+                    <label>Business Name</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Contact Name</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Business Type</label>
+                    <select required>
+                        <option>Boutique Retailer</option>
+                        <option>Department Store</option>
+                        <option>Online Store</option>
+                        <option>Gallery</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Years in Business</label>
+                    <select required>
+                        <option>0-1 years</option>
+                        <option>2-5 years</option>
+                        <option>5-10 years</option>
+                        <option>10+ years</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-dark" style="width: 100%;">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="designerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('designerModal')">&times;</span>
+            <h2>Apply as Brand</h2>
+            <form>
+                <div class="form-group">
+                    <label>Brand Name</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Contact Name</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" require
